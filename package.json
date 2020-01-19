@@ -1,5 +1,5 @@
 {
-  "name": "terminal-menu",
+  "name": "node-terminal-menu",
   "version": "1.0.0",
   "description": "Simple menu widgets for the terminal",
   "main": "src/index.js",

@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "Luis Crespo, lcrespom@gmail.com",
+  "keywords": ["node", "node.js", "terminal", "menu"],
+  "author": "Luis Crespo <lcrespom@gmail.com> (https://github.com/lcrespom)",
   "license": "ISC",
   "devDependencies": {
     "keypress": "^0.2.1"

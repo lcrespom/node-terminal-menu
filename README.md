@@ -5,7 +5,7 @@ Two widgets are provided:
 - A vertical menu, using one line per option
 - A tabular menu, displaying options in a specified number of columns
 
-The widgets expect keyboard events are handled by the
+The widgets expect keyboard events to be handled by the
 [keypress](https://github.com/TooTallNate/keypress) module, which must
 be set up by the application. See the examples for more details.
 

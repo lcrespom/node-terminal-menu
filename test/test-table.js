@@ -1,6 +1,8 @@
 const keypress = require('keypress')
 
-const { hideCursor, showCursor, tableMenu, computeTableLayout } = require('../src')
+const {
+    hideCursor, showCursor, tableMenu, computeTableLayout
+} = require('../src')
 
 
 function listenKeyboard(kbHandler) {
@@ -35,7 +37,6 @@ function main() {
         columnWidth,
         // columns: 3,
         // columnWidth: 12,
-        //selection: 3,
         done: menuDone
     })
     listenKeyboard(menuKeyHandler)

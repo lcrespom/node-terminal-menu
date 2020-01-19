@@ -3,8 +3,11 @@ const { put, print, inverse } = require('./terminal')
 
 let config = {}
 
-function showOption(row, text) {
-    process.stdout.moveCursor(0, row)
+function showOption(pos, text) {
+    let cols = config.columns + 1
+    let col = pos % cols
+    let row = Math.floor(pos / cols)
+    process.stdout.moveCursor(col * config.columnWidth, row)
     print(text)
     process.stdout.moveCursor(0, - row - 1)
 }
@@ -27,8 +30,10 @@ function kbHandler(ch, key) {
     switch (key.name) {
         case 'escape': return config.done(-1)
         case 'return': return config.done(config.selection)
-        case 'down': return moveSelection(1)
-        case 'up': return moveSelection(-1)
+        case 'right': return moveSelection(1)
+        case 'left': return moveSelection(-1)
+        case 'down': return moveSelection(config.columns + 1)
+        case 'up': return moveSelection(-(config.columns + 1))
     }
 }
 

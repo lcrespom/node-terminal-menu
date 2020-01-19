@@ -1,30 +1,12 @@
+const { put, print, inverse} = require('./terminal')
+
+
 let config = {}
-
-
-function put(str) {
-    process.stdout.write(str)
-}
-
-function print(str) {
-    put(str + '\n')
-}
-
-function hideCursor() {
-    put('\x1b[?25l')
-}
-
-function showCursor() {
-    put('\x1b[?25h')
-}
 
 function showOption(row, text) {
     process.stdout.moveCursor(0, row)
     print(text)
     process.stdout.moveCursor(0, - row - 1)
-}
-
-function inverse(str) {
-    return '\x1b[7m' + str + '\x1b[0m'
 }
 
 function showSelection(options, sel, oldSel) {
@@ -103,8 +85,6 @@ function tableMenu(menuConfig) {
 
 
 module.exports = {
-    hideCursor,
-    showCursor,
     verticalMenu,
     tableMenu
 }

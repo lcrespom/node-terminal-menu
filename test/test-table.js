@@ -1,7 +1,7 @@
 const keypress = require('keypress')
 
 const { hideCursor, showCursor } = require('../src/terminal')
-const { verticalMenu } = require('../src/menu')
+const { tableMenu } = require('../src/menu')
 
 
 function listenKeyboard(kbHandler) {
@@ -23,10 +23,12 @@ function menuDone(selection) {
 let options = []
 
 function main() {
-    options = 'zero one two three four five six seven'.split(' ')
+    options = 'zero one two three four five six seven eight nine'.split(' ')
     hideCursor()
-    let menuKeyHandler = verticalMenu({
+    let menuKeyHandler = tableMenu({
         options,
+        columns: 3,
+        columnWidth: 10,
         //selection: 3,
         done: menuDone
     })

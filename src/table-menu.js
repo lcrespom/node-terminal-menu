@@ -1,4 +1,4 @@
-const { print, inverse} = require('./terminal')
+const { put, print, inverse } = require('./terminal')
 
 
 let config = {}
@@ -32,24 +32,34 @@ function kbHandler(ch, key) {
     }
 }
 
-function putMenu(options) {
-    for (let o of options) {
-        print(o)
+function putTableMenu() {
+    let col = 0, row = 0
+    for (let o of config.options) {
+        put(o + ' '.repeat(config.columnWidth - o.length))
+        col++
+        if (col > config.columns) {
+            print('')
+            col = 0
+            row++
+        }
     }
-    process.stdout.moveCursor(0, -options.length)
+    if (col != 0) {
+        print('')
+        row++
+    }
+    process.stdout.moveCursor(0, -row)
 }
 
-function verticalMenu(menuConfig) {
+function tableMenu(menuConfig) {
     config = menuConfig
     if (config.selection === undefined)
         config.selection = 0
     config.oldSel = 0
-    putMenu(config.options)
+    putTableMenu()
     showSelection(config.options, config.selection, config.oldSel)
     return kbHandler
 }
 
-
 module.exports = {
-    verticalMenu
+    tableMenu
 }

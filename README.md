@@ -51,7 +51,7 @@ let menuKeyHandler = tableMenu(config)
 
 The call to `tableMenu` returns a key event listener, with the same behavior as the call to `verticalMenu`.
 
-## Computing the table menu layout
+### Computing the table menu layout
 
 The **columns** and **columnWidth** properties can be provided by the user, or can be computed via the `computeTableLayout` helper function:
 

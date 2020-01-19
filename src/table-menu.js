@@ -27,10 +27,17 @@ function moveSelection(delta) {
 }
 
 function kbHandler(ch, key) {
+    if (!key) return
+    if (key.name == 'tab' && key.shift)
+        key.name = 'shift-tab'
+    else if (ch == 'q')
+        key.name = 'escape'
     switch (key.name) {
         case 'escape': return config.done(-1)
         case 'return': return config.done(config.selection)
+        case 'tab':
         case 'right': return moveSelection(1)
+        case 'shift-tab':
         case 'left': return moveSelection(-1)
         case 'down': return moveSelection(config.columns + 1)
         case 'up': return moveSelection(-(config.columns + 1))

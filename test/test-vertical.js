@@ -24,7 +24,7 @@ function main() {
     options = 'zero one two three four five six seven'.split(' ')
     hideCursor()
     let menuKeyHandler = verticalMenu({
-        options: options,
+        options,
         //selection: 3,
         done: menuDone
     })

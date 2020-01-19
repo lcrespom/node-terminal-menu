@@ -73,20 +73,31 @@ function verticalMenu(menuConfig) {
 
 //------------------------- Table menu -------------------------
 
-function putTableMenu(options) {
-    for (let o of options) {
-        print(o)
+function putTableMenu() {
+    let col = 0, row = 0
+    for (let o of config.options) {
+        put(o + ' '.repeat(config.columnWidth - o.length))
+        col++
+        if (col > config.columns) {
+            print('')
+            col = 0
+            row++
+        }
     }
-    process.stdout.moveCursor(0, -options.length)
+    if (col != 0) {
+        print('')
+        row++
+    }
+    process.stdout.moveCursor(0, -row)
 }
 
-function tableMenu({ menuOptions, columns, columnWidth, done }) {
-    sel = 0
-    oldSel = 0
-    options = menuOptions
-    menuDone = done
-    putTableMenu(options)
-    showSelection(options, sel, oldSel)
+function tableMenu(menuConfig) {
+    config = menuConfig
+    if (config.selection === undefined)
+        config.selection = 0
+    config.oldSel = 0
+    putTableMenu()
+    showSelection(config.options, config.selection, config.oldSel)
     return kbHandler
 }
 

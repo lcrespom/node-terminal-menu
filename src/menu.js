@@ -1,7 +1,4 @@
-let options = []
-let sel = 0
-let oldSel = 0
-let menuDone = () => { }
+let config = {}
 
 
 function put(str) {
@@ -36,17 +33,18 @@ function showSelection(options, sel, oldSel) {
 }
 
 function moveSelection(delta) {
-    if (sel + delta < 0 || sel + delta >= options.length)
+    if (config.selection + delta < 0 ||
+        config.selection + delta >= config.options.length)
         return
-    oldSel = sel
-    sel += delta
-    showSelection(options, sel, oldSel)
+    config.oldSel = config.selection
+    config.selection += delta
+    showSelection(config.options, config.selection, config.oldSel)
 }
 
 function kbHandler(ch, key) {
     switch (key.name) {
-        case 'escape': return menuDone(-1)
-        case 'return': return menuDone(sel)
+        case 'escape': return config.done(-1)
+        case 'return': return config.done(config.selection)
         case 'down': return moveSelection(1)
         case 'up': return moveSelection(-1)
     }
@@ -62,13 +60,13 @@ function putVerticalMenu(options) {
     process.stdout.moveCursor(0, -options.length)
 }
 
-function verticalMenu({ menuOptions, done }) {
-    sel = 0
-    oldSel = 0
-    options = menuOptions
-    menuDone = done
-    putVerticalMenu(options)
-    showSelection(options, sel, oldSel)
+function verticalMenu(menuConfig) {
+    config = menuConfig
+    if (config.selection === undefined)
+        config.selection = 0
+    config.oldSel = 0
+    putVerticalMenu(config.options)
+    showSelection(config.options, config.selection, config.oldSel)
     return kbHandler
 }
 

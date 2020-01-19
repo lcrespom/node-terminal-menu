@@ -21,10 +21,11 @@ function menuDone(selection) {
 let options = []
 
 function main() {
-    options = 'one two three four five six seven'.split(' ')
+    options = 'zero one two three four five six seven'.split(' ')
     hideCursor()
     let menuKeyHandler = verticalMenu({
-        menuOptions: options,
+        options: options,
+        //selection: 3,
         done: menuDone
     })
     listenKeyboard(menuKeyHandler)

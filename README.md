@@ -1,4 +1,4 @@
-# terminal-menu
+# node-terminal-menu
 Simple menu widgets for the terminal, in JavaScript.
 
 Two widgets are provided:

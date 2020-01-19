@@ -59,6 +59,6 @@ The **columns** and **columnWidth** properties can be provided by the user, or c
 let { rows, columns, columnWidth } = computeTableLayout(options)
 ```
 
-The function takes the array of options and computes the number of columns and their width, based on the maximum width of the option text and the terminal width in characters. Apart from the options parameter, it supports two optional parameters:
+The function takes the array of options and computes the number of rows, columns and their width based on the number of options and the width of the longest option. Apart from the options parameter, it supports two more optional parameters:
 - **gap**: the separation between columns - defaults to 2
 - **totalWidth**: the table width - defaults to the number of columns of the terminal

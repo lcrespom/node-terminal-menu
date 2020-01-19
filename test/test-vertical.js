@@ -11,14 +11,21 @@ function listenKeyboard(kbHandler) {
     })
 }
 
+function menuDone(selection) {
+    console.log('Selection: ' + selection + ' - ' + options[selection])
+    process.stdout.clearScreenDown()
+    showCursor()
+    process.exit(0)
+}
+
+let options = []
+
 function main() {
+    options = 'one two three four five six seven'.split(' ')
     hideCursor()
-    let options = 'one two three four five six seven'.split(' ')
-    let menuKeyHandler = verticalMenu(options, sel => {
-        console.log('Selection: ' + sel + ' - ' + options[sel])
-        process.stdout.clearScreenDown()
-        showCursor()
-        process.exit(0)
+    let menuKeyHandler = verticalMenu({
+        menuOptions: options,
+        done: menuDone
     })
     listenKeyboard(menuKeyHandler)
 }

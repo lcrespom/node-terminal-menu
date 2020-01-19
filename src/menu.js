@@ -20,13 +20,6 @@ function showCursor() {
     put('\x1b[?25h')
 }
 
-function putMenu(options) {
-    for (let o of options) {
-        print(o)
-    }
-    process.stdout.moveCursor(0, -options.length)
-}
-
 function showOption(row, text) {
     process.stdout.moveCursor(0, row)
     print(text)
@@ -59,12 +52,42 @@ function kbHandler(ch, key) {
     }
 }
 
-function verticalMenu(menuOptions, callBack) {
+
+//------------------------- Vertical menu -------------------------
+
+function putVerticalMenu(options) {
+    for (let o of options) {
+        print(o)
+    }
+    process.stdout.moveCursor(0, -options.length)
+}
+
+function verticalMenu({ menuOptions, done }) {
     sel = 0
     oldSel = 0
     options = menuOptions
-    menuDone = callBack
-    putMenu(options)
+    menuDone = done
+    putVerticalMenu(options)
+    showSelection(options, sel, oldSel)
+    return kbHandler
+}
+
+
+//------------------------- Table menu -------------------------
+
+function putTableMenu(options) {
+    for (let o of options) {
+        print(o)
+    }
+    process.stdout.moveCursor(0, -options.length)
+}
+
+function tableMenu({ menuOptions, columns, columnWidth, done }) {
+    sel = 0
+    oldSel = 0
+    options = menuOptions
+    menuDone = done
+    putTableMenu(options)
     showSelection(options, sel, oldSel)
     return kbHandler
 }
@@ -73,5 +96,6 @@ function verticalMenu(menuOptions, callBack) {
 module.exports = {
     hideCursor,
     showCursor,
-    verticalMenu
+    verticalMenu,
+    tableMenu
 }

@@ -1,0 +1,15 @@
+{
+  "name": "terminal-menu",
+  "version": "1.0.0",
+  "description": "Simple menu widgets for the terminal",
+  "main": "menu.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Luis Crespo, lcrespom@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "keypress": "^0.2.1"
+  }
+}

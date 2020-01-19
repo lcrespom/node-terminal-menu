@@ -65,6 +65,18 @@ function tableMenu(menuConfig) {
     return kbHandler
 }
 
+function computeTableLayout(options,
+        gap = 2, totalWidth = process.stdout.columns) {
+    let maxw = 0
+    for (let option of options)
+        if (option.length > maxw)
+            maxw = option.length
+    let columnWidth = maxw + gap
+    let columns = Math.floor(totalWidth / columnWidth) - 1
+    return [columns, columnWidth]
+}
+
 module.exports = {
-    tableMenu
+    tableMenu,
+    computeTableLayout
 }

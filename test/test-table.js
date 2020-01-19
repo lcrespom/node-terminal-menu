@@ -1,6 +1,6 @@
 const keypress = require('keypress')
 
-const { hideCursor, showCursor, tableMenu } = require('../src')
+const { hideCursor, showCursor, tableMenu, computeTableLayout } = require('../src')
 
 
 function listenKeyboard(kbHandler) {
@@ -22,12 +22,19 @@ function menuDone(selection) {
 let options = []
 
 function main() {
-    options = 'zero one two three four five six seven eight nine'.split(' ')
+    let loremIpsum = 'Lorem ipsum dolor sit amet ' +
+        'consectetur adipiscing elit sed do eiusmod ' +
+        'tempor incididunt ut labore et dolore magna aliqua ' +
+        'a/very/long/option'
+    options = loremIpsum.split(' ')
+    let [ columns, columnWidth ] = computeTableLayout(options)
     hideCursor()
     let menuKeyHandler = tableMenu({
         options,
-        columns: 3,
-        columnWidth: 10,
+        columns,
+        columnWidth,
+        // columns: 3,
+        // columnWidth: 12,
         //selection: 3,
         done: menuDone
     })

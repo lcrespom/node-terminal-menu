@@ -50,3 +50,15 @@ let menuKeyHandler = tableMenu(config)
 - **selection**: optional - the preselected menu item. Defaults to 0.
 
 The call to `tableMenu` returns a key event listener, with the same behavior as the call to `verticalMenu`.
+
+## Computing the table menu layout
+
+The **columns** and **columnWidth** properties can be provided by the user, or can be computed via the `computeTableLayout` helper function:
+
+```
+let [ columns, columnWidth ] = computeTableLayout(options)
+```
+
+The function takes the array of options and computes the number of columns and their width, based on the width of the options and the terminal width in characters. It supports two optional parameters:
+- **gap**: the separation between columns - defaults to 2
+- **totalWidth**: the table width - defaults to the number of columns of the terminal

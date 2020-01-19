@@ -29,7 +29,7 @@ function main() {
         'tempor incididunt ut labore et dolore magna aliqua ' +
         'a/very/long/option'
     options = loremIpsum.split(' ')
-    let [ columns, columnWidth ] = computeTableLayout(options)
+    let { columns, columnWidth } = computeTableLayout(options)
     hideCursor()
     let menuKeyHandler = tableMenu({
         options,

@@ -4,9 +4,8 @@ const { put, print, inverse } = require('./terminal')
 let config = {}
 
 function showOption(pos, text) {
-    let cols = config.columns + 1
-    let col = pos % cols
-    let row = Math.floor(pos / cols)
+    let col = pos % config.columns
+    let row = Math.floor(pos / config.columns)
     process.stdout.moveCursor(col * config.columnWidth, row)
     print(text)
     process.stdout.moveCursor(0, - row - 1)
@@ -39,8 +38,8 @@ function kbHandler(ch, key) {
         case 'right': return moveSelection(1)
         case 'shift-tab':
         case 'left': return moveSelection(-1)
-        case 'down': return moveSelection(config.columns + 1)
-        case 'up': return moveSelection(-(config.columns + 1))
+        case 'down': return moveSelection(config.columns)
+        case 'up': return moveSelection(-config.columns)
     }
 }
 
@@ -49,7 +48,7 @@ function putTableMenu() {
     for (let o of config.options) {
         put(o + ' '.repeat(config.columnWidth - o.length))
         col++
-        if (col > config.columns) {
+        if (col >= config.columns) {
             print('')
             col = 0
             row++
@@ -79,8 +78,9 @@ function computeTableLayout(options,
         if (option.length > maxw)
             maxw = option.length
     let columnWidth = maxw + gap
-    let columns = Math.floor(totalWidth / columnWidth) - 1
-    return [columns, columnWidth]
+    let columns = Math.floor(totalWidth / columnWidth)
+    let rows = Math.ceil(options.length / columns)
+    return { rows, columns, columnWidth }
 }
 
 module.exports = {

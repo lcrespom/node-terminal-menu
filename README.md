@@ -56,9 +56,9 @@ The call to `tableMenu` returns a key event listener, with the same behavior as 
 The **columns** and **columnWidth** properties can be provided by the user, or can be computed via the `computeTableLayout` helper function:
 
 ```
-let [ columns, columnWidth ] = computeTableLayout(options)
+let { rows, columns, columnWidth } = computeTableLayout(options)
 ```
 
-The function takes the array of options and computes the number of columns and their width, based on the width of the options and the terminal width in characters. It supports two optional parameters:
+The function takes the array of options and computes the number of columns and their width, based on the maximum width of the option text and the terminal width in characters. Apart from the options parameter, it supports two optional parameters:
 - **gap**: the separation between columns - defaults to 2
 - **totalWidth**: the table width - defaults to the number of columns of the terminal

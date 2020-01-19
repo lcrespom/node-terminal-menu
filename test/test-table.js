@@ -1,7 +1,6 @@
 const keypress = require('keypress')
 
-const { hideCursor, showCursor } = require('../src/terminal')
-const { tableMenu } = require('../src/table-menu')
+const { hideCursor, showCursor, tableMenu } = require('../src')
 
 
 function listenKeyboard(kbHandler) {

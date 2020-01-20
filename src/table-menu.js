@@ -1,4 +1,4 @@
-const { put, print, inverse } = require('./terminal')
+const { put, print, inverse, removeAnsiColorCodes } = require('./terminal')
 
 
 let config = {}
@@ -45,8 +45,9 @@ function kbHandler(ch, key) {
 
 function putTableMenu() {
     let col = 0, row = 0
-    for (let o of config.options) {
-        put(o + ' '.repeat(config.columnWidth - o.length))
+    for (let option of config.options) {
+        let len = removeAnsiColorCodes(option).length
+        put(option + ' '.repeat(config.columnWidth - len))
         col++
         if (col >= config.columns) {
             print('')
@@ -75,8 +76,7 @@ function computeTableLayout(options,
         gap = 2, totalWidth = process.stdout.columns) {
     let maxw = 0
     for (let option of options)
-        if (option.length > maxw)
-            maxw = option.length
+        maxw = Math.max(maxw, removeAnsiColorCodes(option).length)
     let columnWidth = maxw + gap
     let columns = Math.floor(totalWidth / columnWidth)
     let rows = Math.ceil(options.length / columns)

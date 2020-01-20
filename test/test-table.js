@@ -27,7 +27,8 @@ function main() {
     let loremIpsum = 'Lorem ipsum dolor sit amet ' +
         'consectetur adipiscing elit sed do eiusmod ' +
         'tempor incididunt ut labore et dolore magna aliqua ' +
-        'a/very/long/option'
+        '\x1b[1mlong/bright/option\x1b[m ' +
+        'potato'
     options = loremIpsum.split(' ')
     let { columns, columnWidth } = computeTableLayout(options)
     hideCursor()

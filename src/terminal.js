@@ -18,7 +18,11 @@ function inverse(str) {
     return '\x1b[7m' + str + '\x1b[0m'
 }
 
+function removeAnsiColorCodes(str) {
+	return str.replace(/\x1b\[[0-9;]*m/g, '')
+}
+
 
 module.exports = {
-    put, print, hideCursor, showCursor, inverse
+    put, print, hideCursor, showCursor, inverse, removeAnsiColorCodes
 }

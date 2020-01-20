@@ -59,7 +59,9 @@ function putTableMenu() {
         print('')
         row++
     }
-    process.stdout.moveCursor(0, -row)
+    // If no done function, menu is not interactive
+    if (config.done)
+        process.stdout.moveCursor(0, -row)
 }
 
 function tableMenu(menuConfig) {

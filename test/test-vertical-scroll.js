@@ -28,7 +28,7 @@ function main() {
     let menuKeyHandler = verticalMenu({
         options,
         height: 5,
-        selection: 7,
+        selection: options.length - 1,
         done: menuDone
     })
     listenKeyboard(menuKeyHandler)

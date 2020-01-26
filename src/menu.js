@@ -4,6 +4,7 @@ const { print, inverse} = require('./terminal')
 let config = {}
 
 function showOption(row, text) {
+    if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(0, row)
     print(text)
     process.stdout.moveCursor(0, - row - 1)

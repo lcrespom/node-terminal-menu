@@ -3,16 +3,22 @@ const { print, inverse} = require('./terminal')
 
 let config = {}
 
-function showOption(row, text, printOption) {
+function showOption(row, text) {
     if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(0, row)
-    printOption(text)
+    print(text)
     process.stdout.moveCursor(0, - row - 1)
 }
 
+function decorateOption(opt, isSelected = false) {
+    if (isSelected)
+        return inverse(opt)
+    return opt
+}
+
 function showSelection(options, sel, oldSel) {
-    showOption(oldSel - config.scrollStart, options[oldSel], config.print)
-    showOption(sel - config.scrollStart, options[sel], config.printSelection)
+    showOption(oldSel - config.scrollStart, config.decorate(options[oldSel]))
+    showOption(sel - config.scrollStart, config.decorate(options[sel], true))
 }
 
 function adjustScrollStart() {
@@ -68,10 +74,8 @@ function initConfig(cfg) {
         cfg.height = cfg.options.length
     if (cfg.scrollStart === undefined)
         cfg.scrollStart = 0
-    if (!cfg.print)
-        cfg.print = print
-    if (!cfg.printSelection)
-        cfg.printSelection = sel => print(inverse(sel))
+    if (!cfg.decorate)
+        cfg.decorate = decorateOption
     cfg.oldSel = 0
     return cfg
 }

@@ -62,7 +62,7 @@ function putMenu(options) {
     let start = config.scrollStart
     let opts = options.slice(start, start + config.height)
     for (let o of opts) {
-        print(o)
+        print(config.decorate(o))
     }
     process.stdout.moveCursor(0, -opts.length)
 }

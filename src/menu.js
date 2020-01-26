@@ -3,16 +3,16 @@ const { print, inverse} = require('./terminal')
 
 let config = {}
 
-function showOption(row, text) {
+function showOption(row, text, printOption) {
     if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(0, row)
-    print(text)
+    printOption(text)
     process.stdout.moveCursor(0, - row - 1)
 }
 
 function showSelection(options, sel, oldSel) {
-    showOption(oldSel - config.scrollStart, options[oldSel])
-    showOption(sel - config.scrollStart, inverse(options[sel]))
+    showOption(oldSel - config.scrollStart, options[oldSel], config.print)
+    showOption(sel - config.scrollStart, options[sel], config.printSelection)
 }
 
 function adjustScrollStart() {
@@ -28,11 +28,13 @@ function adjustScrollStart() {
 }
 
 function moveSelection(delta) {
-    if (config.selection + delta < 0 ||
-        config.selection + delta >= config.options.length)
-        return
     config.oldSel = config.selection
-    config.selection += delta
+    if (config.selection + delta < 0)
+        config.selection = 0
+    else if (config.selection + delta >= config.options.length)
+        config.selection = config.options.length - 1
+    else
+        config.selection += delta
     if (adjustScrollStart())
         putMenu(config.options)
     showSelection(config.options, config.selection, config.oldSel)
@@ -44,6 +46,8 @@ function kbHandler(ch, key) {
         case 'return': return config.done(config.selection)
         case 'down': return moveSelection(1)
         case 'up': return moveSelection(-1)
+        case 'pagedown': return moveSelection(config.height - 1)
+        case 'pageup': return moveSelection(- (config.height - 1))
     }
 }
 
@@ -64,6 +68,10 @@ function initConfig(cfg) {
         cfg.height = cfg.options.length
     if (cfg.scrollStart === undefined)
         cfg.scrollStart = 0
+    if (!cfg.print)
+        cfg.print = print
+    if (!cfg.printSelection)
+        cfg.printSelection = sel => print(inverse(sel))
     cfg.oldSel = 0
     return cfg
 }

@@ -10,8 +10,20 @@ function showOption(row, text) {
 }
 
 function showSelection(options, sel, oldSel) {
-    showOption(oldSel, options[oldSel])
-    showOption(sel, inverse(options[sel]))
+    showOption(oldSel - config.scrollStart, options[oldSel])
+    showOption(sel - config.scrollStart, inverse(options[sel]))
+}
+
+function adjustScrollStart() {
+    if (config.scrollStart + config.height <= config.selection) {
+        config.scrollStart = config.selection - config.height + 1
+        return true
+    }
+    else if (config.scrollStart > config.selection) {
+        config.scrollStart = config.selection
+        return true
+    }
+    return false
 }
 
 function moveSelection(delta) {
@@ -20,6 +32,8 @@ function moveSelection(delta) {
         return
     config.oldSel = config.selection
     config.selection += delta
+    if (adjustScrollStart())
+        putMenu(config.options)
     showSelection(config.options, config.selection, config.oldSel)
 }
 
@@ -33,17 +47,29 @@ function kbHandler(ch, key) {
 }
 
 function putMenu(options) {
-    for (let o of options) {
+    process.stdout.clearScreenDown()
+    let start = config.scrollStart
+    let opts = options.slice(start, start + config.height)
+    for (let o of opts) {
         print(o)
     }
-    process.stdout.moveCursor(0, -options.length)
+    process.stdout.moveCursor(0, -opts.length)
+}
+
+function initConfig(cfg) {
+    if (cfg.selection === undefined)
+        cfg.selection = 0
+    if (cfg.height === undefined)
+        cfg.height = cfg.options.length
+    if (cfg.scrollStart === undefined)
+        cfg.scrollStart = 0
+    cfg.oldSel = 0
+    return cfg
 }
 
 function verticalMenu(menuConfig) {
-    config = menuConfig
-    if (config.selection === undefined)
-        config.selection = 0
-    config.oldSel = 0
+    config = initConfig(menuConfig)
+    adjustScrollStart()
     putMenu(config.options)
     showSelection(config.options, config.selection, config.oldSel)
     return kbHandler

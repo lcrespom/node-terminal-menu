@@ -32,6 +32,8 @@ let menuKeyHandler = verticalMenu(config)
 - **options**: required - an array of strings with the list of menu options to display.
 - **done**: required - a callback function that will be invoked when the user selects an option. The option index will be passed as a parameter to the callback.
 - **selection**: optional - the preselected menu item. Defaults to 0.
+- **height**: optional - maximum number of rows to display. If the height is smaller than the number of
+    options, scrolling is used (but no scroll bar is displayed).
 
 The call to `verticalMenu` returns a key event listener that can be used to listen to `keypress` events. That way, when the user presses arrow keys, the listener will update the menu selection accordingly, and when the user presses *return* or *escape*, the **done** callback will be invoked.
 

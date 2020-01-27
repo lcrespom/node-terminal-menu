@@ -34,6 +34,13 @@ let menuKeyHandler = verticalMenu(config)
 - **selection**: optional - the preselected menu item. Defaults to 0.
 - **height**: optional - maximum number of rows to display. If the height is smaller than the number of
     options, scrolling is used (but no scroll bar is displayed).
+- **decorate**: optional - if present, this function will be invoked when displaying each menu item, e.g.
+    to colorize it. It receives two parameters: the menu item string and a boolean indicating whether
+    the item is selected or not, and returns the decorated menu item.
+    The default implementation renders unselected menu items without decoration and selected ones in reverse color.
+    Notice that menu options can be passed already decorated in the required **options** parameter, but this
+    property is useful in case the amount of options is large and the cost of decorating all of them before
+    opening the menu could keep the user waiting.
 
 The call to `verticalMenu` returns a key event listener that can be used to listen to `keypress` events. That way, when the user presses arrow keys, the listener will update the menu selection accordingly, and when the user presses *return* or *escape*, the **done** callback will be invoked.
 

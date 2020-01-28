@@ -14,21 +14,21 @@ function listenKeyboard(kbHandler) {
 
 function menuDone(selection) {
     process.stdout.clearScreenDown()
-    console.log('Selection: ' + selection + ' - ' + options[selection])
+    console.log('Selection: ' + selection + ' - ' + items[selection])
     showCursor()
     process.exit(0)
 }
 
-let options = []
+let items = []
 
 function main() {
-    options = ('zero one two three four five six seven-is-long ' +
+    items = ('zero one two three four five six seven-is-long ' +
         'eight nine ten eleven twelve thirteen fourteen').split(' ')
     hideCursor()
     let menuKeyHandler = verticalMenu({
-        options,
+        items,
         height: 5,
-        selection: options.length - 1,
+        selection: items.length - 1,
         done: menuDone
     })
     listenKeyboard(menuKeyHandler)

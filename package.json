@@ -1,12 +1,17 @@
 {
   "name": "node-terminal-menu",
-  "version": "1.9.0",
+  "version": "2.0.0",
   "description": "Simple menu widgets for the terminal",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["node", "node.js", "terminal", "menu"],
+  "keywords": [
+    "node",
+    "node.js",
+    "terminal",
+    "menu"
+  ],
   "author": "Luis Crespo <lcrespom@gmail.com> (https://github.com/lcrespom)",
   "license": "ISC",
   "devDependencies": {

@@ -3,7 +3,7 @@ const { put, print, inverse, removeAnsiColorCodes } = require('./terminal')
 
 let config = {}
 
-function showOption(pos, text) {
+function showItem(pos, text) {
     let col = pos % config.columns
     let row = Math.floor(pos / config.columns)
     process.stdout.moveCursor(col * config.columnWidth, row)
@@ -11,18 +11,18 @@ function showOption(pos, text) {
     process.stdout.moveCursor(0, - row - 1)
 }
 
-function showSelection(options, sel, oldSel) {
-    showOption(oldSel, options[oldSel])
-    showOption(sel, inverse(options[sel]))
+function showSelection(items, sel, oldSel) {
+    showItem(oldSel, items[oldSel])
+    showItem(sel, inverse(items[sel]))
 }
 
 function moveSelection(delta) {
     if (config.selection + delta < 0 ||
-        config.selection + delta >= config.options.length)
+        config.selection + delta >= config.items.length)
         return
     config.oldSel = config.selection
     config.selection += delta
-    showSelection(config.options, config.selection, config.oldSel)
+    showSelection(config.items, config.selection, config.oldSel)
 }
 
 function kbHandler(ch, key) {
@@ -45,9 +45,9 @@ function kbHandler(ch, key) {
 
 function putTableMenu() {
     let col = 0, row = 0
-    for (let option of config.options) {
-        let len = removeAnsiColorCodes(option).length
-        put(option + ' '.repeat(config.columnWidth - len))
+    for (let item of config.items) {
+        let len = removeAnsiColorCodes(item).length
+        put(item + ' '.repeat(config.columnWidth - len))
         col++
         if (col >= config.columns) {
             print('')
@@ -70,18 +70,18 @@ function tableMenu(menuConfig) {
         config.selection = 0
     config.oldSel = 0
     putTableMenu()
-    showSelection(config.options, config.selection, config.oldSel)
+    showSelection(config.items, config.selection, config.oldSel)
     return kbHandler
 }
 
-function computeTableLayout(options,
+function computeTableLayout(items,
         gap = 2, totalWidth = process.stdout.columns) {
     let maxw = 0
-    for (let option of options)
-        maxw = Math.max(maxw, removeAnsiColorCodes(option).length)
+    for (let item of items)
+        maxw = Math.max(maxw, removeAnsiColorCodes(item).length)
     let columnWidth = maxw + gap
     let columns = Math.floor(totalWidth / columnWidth)
-    let rows = Math.ceil(options.length / columns)
+    let rows = Math.ceil(items.length / columns)
     return { rows, columns, columnWidth }
 }
 

@@ -3,22 +3,22 @@ const { print, inverse} = require('./terminal')
 
 let config = {}
 
-function showOption(row, text) {
+function showItem(row, text) {
     if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(0, row)
     print(text)
     process.stdout.moveCursor(0, - row - 1)
 }
 
-function decorateOption(opt, isSelected = false) {
+function decorateItem(opt, isSelected = false) {
     if (isSelected)
         return inverse(opt)
     return opt
 }
 
-function showSelection(options, sel, oldSel) {
-    showOption(oldSel - config.scrollStart, config.decorate(options[oldSel]))
-    showOption(sel - config.scrollStart, config.decorate(options[sel], true))
+function showSelection(items, sel, oldSel) {
+    showItem(oldSel - config.scrollStart, config.decorate(items[oldSel]))
+    showItem(sel - config.scrollStart, config.decorate(items[sel], true))
 }
 
 function adjustScrollStart() {
@@ -37,13 +37,13 @@ function moveSelection(delta) {
     config.oldSel = config.selection
     if (config.selection + delta < 0)
         config.selection = 0
-    else if (config.selection + delta >= config.options.length)
-        config.selection = config.options.length - 1
+    else if (config.selection + delta >= config.items.length)
+        config.selection = config.items.length - 1
     else
         config.selection += delta
     if (adjustScrollStart())
-        putMenu(config.options)
-    showSelection(config.options, config.selection, config.oldSel)
+        putMenu(config.items)
+    showSelection(config.items, config.selection, config.oldSel)
 }
 
 function kbHandler(ch, key) {
@@ -57,10 +57,10 @@ function kbHandler(ch, key) {
     }
 }
 
-function putMenu(options) {
+function putMenu(items) {
     process.stdout.clearScreenDown()
     let start = config.scrollStart
-    let opts = options.slice(start, start + config.height)
+    let opts = items.slice(start, start + config.height)
     for (let o of opts) {
         print(config.decorate(o))
     }
@@ -71,11 +71,11 @@ function initConfig(cfg) {
     if (cfg.selection === undefined)
         cfg.selection = 0
     if (cfg.height === undefined)
-        cfg.height = cfg.options.length
+        cfg.height = cfg.items.length
     if (cfg.scrollStart === undefined)
         cfg.scrollStart = 0
     if (!cfg.decorate)
-        cfg.decorate = decorateOption
+        cfg.decorate = decorateItem
     cfg.oldSel = 0
     return cfg
 }
@@ -83,8 +83,8 @@ function initConfig(cfg) {
 function verticalMenu(menuConfig) {
     config = initConfig(menuConfig)
     adjustScrollStart()
-    putMenu(config.options)
-    showSelection(config.options, config.selection, config.oldSel)
+    putMenu(config.items)
+    showSelection(config.items, config.selection, config.oldSel)
     return kbHandler
 }
 

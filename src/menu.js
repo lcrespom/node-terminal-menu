@@ -87,7 +87,7 @@ function initConfig(cfg) {
 
 function verticalMenu(menuConfig, updating = false) {
     if (updating) {
-        config = { ...config, ...initConfig(menuConfig) }
+        config = { ...config, ...menuConfig }
         updateSelection(0)
     }
     else {

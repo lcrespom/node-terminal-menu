@@ -36,10 +36,7 @@ function main() {
         }
         else if (ch == 'd') {   // Delete selected item
             items.splice(menu.selection, 1)
-            menu.update({
-                items,
-                selection: menu.selection
-            })
+            menu.update({ items })
         }
         else menu.keyHandler(ch, key)
     })

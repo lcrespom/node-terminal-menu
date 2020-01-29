@@ -40,19 +40,13 @@ function main() {
     listenKeyboard((ch, key) => {
         if (ch == 'u') {        // Convert items to uppercase
             items = items.map(i => i.toUpperCase())
-            menu.update({
-                items,
-                selection: menu.selection
-            })
+            menu.update({ items })
         }
         else if (ch == 'd') {   // Delete selected item
             items.splice(menu.selection, 1)
             if (menu.selection >= items.length)
                 menu.selection = items.length - 1
-            menu.update({
-                items,
-                selection: menu.selection
-            })
+            menu.update({ items })
         }
         else menu.keyHandler(ch, key)
     })

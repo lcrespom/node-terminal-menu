@@ -32,10 +32,7 @@ function main() {
     listenKeyboard((ch, key) => {
         if (ch == 'u') {        // Convert items to uppercase
             items = items.map(i => i.toUpperCase())
-            menu.update({
-                items,
-                selection: menu.selection
-            })
+            menu.update({ items })
         }
         else if (ch == 'd') {   // Delete selected item
             items.splice(menu.selection, 1)

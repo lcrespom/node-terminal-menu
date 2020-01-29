@@ -65,17 +65,22 @@ function putTableMenu() {
         process.stdout.moveCursor(0, -row)
 }
 
-function tableMenu(menuConfig) {
-    process.stdout.clearScreenDown()
-    config = { ...config, ...menuConfig }
-    if (config.selection === undefined)
-        config.selection = 0
+function tableMenu(menuConfig, updating = false) {
+    if (updating) {
+        process.stdout.clearScreenDown()
+        config = { ...config, ...menuConfig }
+    }
+    else {
+        config = menuConfig
+        if (config.selection === undefined)
+            config.selection = 0
+    }
     config.oldSel = 0
     putTableMenu()
     showSelection(config.items, config.selection, config.oldSel)
     if (!config.menu) config.menu = {
         keyHandler,
-        update: tableMenu,
+        update: (menuConfig) => tableMenu(menuConfig, true),
         selection: config.selection
     }
     return config.menu

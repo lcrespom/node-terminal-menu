@@ -85,15 +85,20 @@ function initConfig(cfg) {
     return cfg
 }
 
-function verticalMenu(menuConfig) {
-    config = { ...config, ...initConfig(menuConfig) }
-    updateSelection(0)
+function verticalMenu(menuConfig, updating = false) {
+    if (updating) {
+        config = { ...config, ...initConfig(menuConfig) }
+        updateSelection(0)
+    }
+    else {
+        config = initConfig(menuConfig)
+    }
     adjustScrollStart()
     putMenu(config.items)
     showSelection(config.items, config.selection, config.oldSel)
     if (!config.menu) config.menu = {
         keyHandler,
-        update: verticalMenu,
+        update: (menuConfig) => verticalMenu(menuConfig, true),
         selection: config.selection
     }
     else config.menu.selection = config.selection

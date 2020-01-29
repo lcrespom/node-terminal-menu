@@ -44,7 +44,7 @@ let menuKeyHandler = verticalMenu(config)
 
 The call to `verticalMenu` returns a menu object with the following methods and properties:
 - **keyHandler**: a key event listener that can be used to listen to `keypress` events. That way, when the user presses arrow keys, the listener will update the menu selection accordingly, and when the user presses *return* or *escape*, the **done** callback will be invoked.
-- **update**: a method that receives a config object and updated the menu according to the new configuration.
+- **update**: a method that receives a config object and updates the menu according to the new configuration.
 - **selection**: the current selection index.
 
 

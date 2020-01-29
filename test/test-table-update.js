@@ -46,7 +46,6 @@ function main() {
             })
         }
         else if (ch == 'd') {   // Delete selected item
-            process.stdout.clearScreenDown()
             items.splice(menu.selection, 1)
             if (menu.selection >= items.length)
                 menu.selection = items.length - 1

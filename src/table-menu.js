@@ -66,6 +66,7 @@ function putTableMenu() {
 }
 
 function tableMenu(menuConfig) {
+    process.stdout.clearScreenDown()
     config = { ...config, ...menuConfig }
     if (config.selection === undefined)
         config.selection = 0

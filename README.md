@@ -25,7 +25,7 @@ See the code examples in the `tests` directory.
 ```
 const { verticalMenu } = require('node-terminal-menu')
 
-let menuKeyHandler = verticalMenu(config)
+let menu = verticalMenu(config)
 ```
 
 **Config object**:
@@ -52,7 +52,7 @@ The call to `verticalMenu` returns a menu object with the following methods and 
 ```
 const { tableMenu } = require('node-terminal-menu')
 
-let menuKeyHandler = tableMenu(config)
+let menu = tableMenu(config)
 ```
 
 **Config object**:

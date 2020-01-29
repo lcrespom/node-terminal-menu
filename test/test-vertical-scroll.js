@@ -30,7 +30,7 @@ function main() {
         height: 5,
         selection: items.length - 1,
         done: menuDone
-    })
+    }).keyHandler
     listenKeyboard(menuKeyHandler)
 }
 

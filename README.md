@@ -42,7 +42,11 @@ let menuKeyHandler = verticalMenu(config)
     property is useful in case the amount of items is large and the cost of decorating all of them before
     opening the menu could keep the user waiting.
 
-The call to `verticalMenu` returns a key event listener that can be used to listen to `keypress` events. That way, when the user presses arrow keys, the listener will update the menu selection accordingly, and when the user presses *return* or *escape*, the **done** callback will be invoked.
+The call to `verticalMenu` returns a menu object with the following methods and properties:
+- **keyHandler**: a key event listener that can be used to listen to `keypress` events. That way, when the user presses arrow keys, the listener will update the menu selection accordingly, and when the user presses *return* or *escape*, the **done** callback will be invoked.
+- **update**: a method that receives a config object and updated the menu according to the new configuration.
+- **selection**: the current selection index.
+
 
 ## Table menu
 ```
@@ -58,7 +62,7 @@ let menuKeyHandler = tableMenu(config)
 - **columnWidth**: required - the width of each column.
 - **selection**: optional - the preselected menu item. Defaults to 0.
 
-The call to `tableMenu` returns a key event listener, with the same behavior as the call to `verticalMenu`.
+The call to `tableMenu` returns a menu object, with the same behavior as the call to `verticalMenu`.
 
 ### Computing the table menu layout
 

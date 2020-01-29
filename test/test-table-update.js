@@ -27,20 +27,36 @@ function main() {
     let loremIpsum = 'Lorem ipsum dolor sit amet ' +
         'consectetur adipiscing elit sed do eiusmod ' +
         'tempor incididunt ut labore et dolore magna aliqua ' +
-        '\x1b[1mlong/bright/option\x1b[m ' +
         'potato'
     items = loremIpsum.split(' ')
     let { columns, columnWidth } = computeTableLayout(items)
     hideCursor()
-    let menuKeyHandler = tableMenu({
+    let menu = tableMenu({
         items,
         columns,
         columnWidth,
-        // columns: 3,
-        // columnWidth: 12,
         done: menuDone
-    }).keyHandler
-    listenKeyboard(menuKeyHandler)
+    })
+    listenKeyboard((ch, key) => {
+        if (ch == 'u') {        // Convert items to uppercase
+            items = items.map(i => i.toUpperCase())
+            menu.update({
+                items,
+                selection: menu.selection
+            })
+        }
+        else if (ch == 'd') {   // Delete selected item
+            process.stdout.clearScreenDown()
+            items.splice(menu.selection, 1)
+            if (menu.selection >= items.length)
+                menu.selection = items.length - 1
+            menu.update({
+                items,
+                selection: menu.selection
+            })
+        }
+        else menu.keyHandler(ch, key)
+    })
 }
 
 main()

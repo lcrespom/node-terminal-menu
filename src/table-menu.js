@@ -22,10 +22,11 @@ function moveSelection(delta) {
         return
     config.oldSel = config.selection
     config.selection += delta
+    config.menu.selection = config.selection
     showSelection(config.items, config.selection, config.oldSel)
 }
 
-function kbHandler(ch, key) {
+function keyHandler(ch, key) {
     if (!key) return
     if (key.name == 'tab' && key.shift)
         key.name = 'shift-tab'
@@ -65,13 +66,18 @@ function putTableMenu() {
 }
 
 function tableMenu(menuConfig) {
-    config = menuConfig
+    config = { ...config, ...menuConfig }
     if (config.selection === undefined)
         config.selection = 0
     config.oldSel = 0
     putTableMenu()
     showSelection(config.items, config.selection, config.oldSel)
-    return kbHandler
+    if (!config.menu) config.menu = {
+        keyHandler,
+        update: tableMenu,
+        selection: config.selection
+    }
+    return config.menu
 }
 
 function computeTableLayout(items,

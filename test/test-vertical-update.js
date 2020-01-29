@@ -29,7 +29,23 @@ function main() {
         //selection: 3,
         done: menuDone
     })
-    listenKeyboard(menu.keyHandler)
+    listenKeyboard((ch, key) => {
+        if (ch == 'u') {        // Convert items to uppercase
+            items = items.map(i => i.toUpperCase())
+            menu.update({
+                items,
+                selection: menu.selection
+            })
+        }
+        else if (ch == 'd') {   // Delete selected item
+            items.splice(menu.selection, 1)
+            menu.update({
+                items,
+                selection: menu.selection
+            })
+        }
+        else menu.keyHandler(ch, key)
+    })
 }
 
 main()

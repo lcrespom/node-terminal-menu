@@ -33,20 +33,25 @@ function adjustScrollStart() {
     return false
 }
 
-function moveSelection(delta) {
-    config.oldSel = config.selection
+function updateSelection(delta) {
     if (config.selection + delta < 0)
         config.selection = 0
     else if (config.selection + delta >= config.items.length)
         config.selection = config.items.length - 1
     else
         config.selection += delta
+}
+
+function moveSelection(delta) {
+    config.oldSel = config.selection
+    updateSelection(delta)
+    config.menu.selection = config.selection
     if (adjustScrollStart())
         putMenu(config.items)
     showSelection(config.items, config.selection, config.oldSel)
 }
 
-function kbHandler(ch, key) {
+function keyHandler(ch, key) {
     switch (key.name) {
         case 'escape': return config.done(-1)
         case 'return': return config.done(config.selection)
@@ -81,11 +86,18 @@ function initConfig(cfg) {
 }
 
 function verticalMenu(menuConfig) {
-    config = initConfig(menuConfig)
+    config = { ...config, ...initConfig(menuConfig) }
+    updateSelection(0)
     adjustScrollStart()
     putMenu(config.items)
     showSelection(config.items, config.selection, config.oldSel)
-    return kbHandler
+    if (!config.menu) config.menu = {
+        keyHandler,
+        update: verticalMenu,
+        selection: config.selection
+    }
+    else config.menu.selection = config.selection
+    return config.menu
 }
 
 

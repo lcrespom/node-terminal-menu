@@ -69,6 +69,9 @@ function tableMenu(menuConfig, updating = false) {
     if (updating) {
         process.stdout.clearScreenDown()
         config = { ...config, ...menuConfig }
+        if (config.selection >= config.items.length)
+            config.selection = config.items.length - 1
+        config.menu.selection = config.selection
     }
     else {
         config = menuConfig
@@ -78,7 +81,7 @@ function tableMenu(menuConfig, updating = false) {
     config.oldSel = 0
     putTableMenu()
     showSelection(config.items, config.selection, config.oldSel)
-    if (!config.menu) config.menu = {
+    if (!updating) config.menu = {
         keyHandler,
         update: (menuConfig) => tableMenu(menuConfig, true),
         selection: config.selection

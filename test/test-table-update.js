@@ -44,8 +44,6 @@ function main() {
         }
         else if (ch == 'd') {   // Delete selected item
             items.splice(menu.selection, 1)
-            if (menu.selection >= items.length)
-                menu.selection = items.length - 1
             menu.update({ items })
         }
         else menu.keyHandler(ch, key)

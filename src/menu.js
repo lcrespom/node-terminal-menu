@@ -88,6 +88,7 @@ function initConfig(cfg) {
 function verticalMenu(menuConfig, updating = false) {
     if (updating) {
         config = { ...config, ...menuConfig }
+        config.oldSel = config.selection
         updateSelection(0)
     }
     else {

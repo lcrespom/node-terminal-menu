@@ -34,7 +34,7 @@ function initItems(rows, cols) {
 }
 
 function main() {
-    const ROWS = 30, COLS = 5, COL_WIDTH = 22
+    const ROWS = 40, COLS = 5, COL_WIDTH = 22
     items = initItems(ROWS, COLS)
     items.push('Lorem')
     items.push('Ipsum')

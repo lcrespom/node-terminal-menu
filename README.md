@@ -61,6 +61,12 @@ let menu = tableMenu(config)
 - **columns**: required - the number of columns in the table.
 - **columnWidth**: required - the width of each column.
 - **selection**: optional - the preselected menu item. Defaults to 0.
+- **height**: optional - maximum number of rows to display. If the height is smaller than the number of
+    items, scrolling is used, and an optional scrollbar can be displayed using the **scrollBarCol** property.
+- **scrollBarCol**: optional - if this property is present and the **height** property is smaller than the
+    total number of rows, then a vertical scroll bar is displayed at the position indicated by the value of
+    this property.
+
 
 The call to `tableMenu` returns a menu object, with the same behavior as the call to `verticalMenu`.
 

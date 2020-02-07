@@ -46,7 +46,7 @@ function main() {
         columnWidth: COL_WIDTH,
         done: menuDone,
         height: 10,
-        scrollBarCol: 110
+        scrollBarCol: 108
     })
     listenKeyboard((ch, key) => {
         if (ch == 'u') {        // Convert items to uppercase

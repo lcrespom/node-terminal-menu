@@ -113,6 +113,15 @@ function putTableMenu() {
         process.stdout.moveCursor(0, -row)
 }
 
+function putScrollBar() {
+    if (config.scrollBarCol === undefined) return
+    let col = config.scrollBarCol
+    config.moveCursor(0, col)
+    for (let i = 0; i < config.rows; i++) {
+        process.stdout.write('\u2502')
+    }
+}
+
 function initConfig() {
     // Initialize selection
     if (config.selection === undefined)
@@ -150,6 +159,7 @@ function tableMenu(menuConfig, updating = false) {
     if (updating)
         config.menu.selection = config.selection
     putTableMenu()
+    putScrollBar()
     showSelection(config.items, config.selection, config.oldSel)
     if (!updating) config.menu = {
         keyHandler,

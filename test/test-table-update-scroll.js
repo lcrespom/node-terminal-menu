@@ -29,12 +29,12 @@ function initItems(rows, cols) {
     let i = 1
     for (let row = 1; row <= rows; row++)
         for (let col = 1; col <= cols; col++)
-        result.push(`${i++}: row ${row}, column ${col}`)
+        result.push(`${i++}: row ${row}, col ${col}`)
     return result
 }
 
 function main() {
-    const ROWS = 20, COLS = 4, COL_WIDTH = 25
+    const ROWS = 20, COLS = 5, COL_WIDTH = 20
     items = initItems(ROWS, COLS)
     //let { columns, columnWidth } = computeTableLayout(items)
     hideCursor()

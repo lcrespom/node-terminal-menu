@@ -21,9 +21,7 @@ function adjustScrollStart() {
     let row = Math.floor(config.selection / config.columns)
     // Check if current row is below visible area
     if (config.scrollStart + config.height <= row) {
-        config.scrollStart++
-        //TODO set scroll start to row - height (and test)
-        //config.scrollStart = config.selection - config.height + 1
+        config.scrollStart = row - config.height + 1
         return true
     }
     // Check if current row is above visible area
@@ -35,12 +33,26 @@ function adjustScrollStart() {
     return false    
 }
 
+function computeSelection(delta) {
+    let col = config.selection % config.columns
+    if (config.selection + delta < 0) {
+        if (delta == -1) return
+        config.selection = col
+    }
+    else if (config.selection + delta >= config.items.length) {
+        if (delta == 1) return
+        config.selection = config.columns * (config.rows - 1) + col
+    }
+    else {
+        config.selection += delta
+    }
+}
+
 function moveSelection(delta) {
-    if (config.selection + delta < 0 ||
-        config.selection + delta >= config.items.length)
-        return
     config.oldSel = config.selection
-    config.selection += delta
+    computeSelection(delta)
+    if (config.selection == config.oldSel)
+        return  // Nothing changed, do not update
     config.menu.selection = config.selection
     if (adjustScrollStart())
         putTableMenu()
@@ -61,7 +73,9 @@ function keyHandler(ch, key) {
         case 'shift-tab':
         case 'left': return moveSelection(-1)
         case 'down': return moveSelection(config.columns)
+        case 'pagedown': return moveSelection(config.columns * (config.height - 1))
         case 'up': return moveSelection(-config.columns)
+        case 'pageup': return moveSelection(- config.columns * (config.height - 1))
         //TODO: pageup, pagedown
     }
 }

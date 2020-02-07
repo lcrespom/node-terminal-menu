@@ -136,7 +136,7 @@ function initConfig() {
     if (config.scrollStart === undefined)
         config.scrollStart = 0
     // Do not scroll past bottom
-    if (config.scrollStart + config.height > config.rows)
+    else if (config.scrollStart + config.height > config.rows)
         config.scrollStart = config.rows - config.height
 }
 

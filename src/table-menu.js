@@ -31,7 +31,7 @@ function adjustScrollStart() {
         config.scrollStart = row
         return true
     }
-    return false    
+    return false
 }
 
 function computeSelection(delta) {
@@ -79,7 +79,6 @@ function keyHandler(ch, key) {
         case 'pagedown': return moveSelection(config.columns * (config.height - 1))
         case 'up': return moveSelection(-config.columns)
         case 'pageup': return moveSelection(- config.columns * (config.height - 1))
-        //TODO: pageup, pagedown
     }
 }
 

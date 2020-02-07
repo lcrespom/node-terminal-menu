@@ -1,6 +1,6 @@
 {
   "name": "node-terminal-menu",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Simple menu widgets for the terminal",
   "main": "src/index.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "author": "Luis Crespo <lcrespom@gmail.com> (https://github.com/lcrespom)",
   "license": "ISC",
   "devDependencies": {
+    "chalk": "^3.0.0",
     "keypress": "^0.2.1"
   }
 }

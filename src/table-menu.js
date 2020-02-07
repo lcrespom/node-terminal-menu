@@ -8,7 +8,7 @@ function showItem(pos, text) {
     let row = Math.floor(pos / config.columns) - config.scrollStart
     if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(col * config.columnWidth, row)
-    print(text)
+    print(config.colors.item(text))
     process.stdout.moveCursor(0, - row - 1)
 }
 
@@ -86,7 +86,7 @@ function padEndAnsi(str, maxLen, filler = ' ') {
     let len = removeAnsiColorCodes(str).length
     if (len >= maxLen)
         return str
-    return str + filler.repeat(maxLen - len)
+    return config.colors.item(str + filler.repeat(maxLen - len))
 }
 
 function putScrollBar() {
@@ -97,7 +97,7 @@ function putScrollBar() {
     process.stdout.moveCursor(col, -1)
     for (let i = 0; i < config.height; i++) {
         process.stdout.moveCursor(-1, 1)
-        process.stdout.write('\u2502')
+        process.stdout.write(config.colors.scrollArea('\u2502'))
     }
     // Paint scroll bar
     let barH = Math.ceil(config.height * config.height / config.rows)
@@ -106,7 +106,7 @@ function putScrollBar() {
     process.stdout.moveCursor(0, barY - config.height)
     for (let i = 0; i < barH; i++) {
         process.stdout.moveCursor(-1, 1)
-        process.stdout.write('\u2588')
+        process.stdout.write(config.colors.scrollBar('\u2588'))
     }
     process.stdout.moveCursor(-col, 1 - barY - barH)
 }
@@ -127,6 +127,8 @@ function putTableMenu() {
     }
     if (col != 0) {
         process.stdout.clearScreenDown()
+        for (let i = col; i < config.columns; i++)
+            put(padEndAnsi('', config.columnWidth))
         print('')
         row++
     }
@@ -161,6 +163,13 @@ function initConfig() {
     // Do not scroll past bottom
     else if (config.scrollStart + config.height > config.rows)
         config.scrollStart = config.rows - config.height
+    // Colors
+    let identity = s => s
+    if (!config.colors)
+        config.colors = {}
+    if (!config.colors.item) config.colors.item = identity
+    if (!config.colors.scrollArea) config.colors.scrollArea = identity
+    if (!config.colors.scrollBar) config.colors.scrollBar = identity
 }
 
 function tableMenu(menuConfig, updating = false) {

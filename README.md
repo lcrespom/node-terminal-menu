@@ -17,7 +17,9 @@ npm install node-terminal-menu --save
 ```
 
 # Examples
-See the code examples in the `tests` directory.
+See the code examples in the `tests` directory. There are different example
+programs with different level of complexity, illustrating all the different
+features of the widgets.
 
 # Usage
 
@@ -66,6 +68,11 @@ let menu = tableMenu(config)
 - **scrollBarCol**: optional - if this property is present and the **height** property is smaller than the
     total number of rows, then a vertical scroll bar is displayed at the position indicated by the value of
     this property.
+- **colors**: optional - an object with 3 properties, each being a function that, if present, will be invoked
+    to add terminal escape codes to give color to different parts of the menu.
+    - **item**: function to colorize each menu item.
+    - **scrollArea**: function to colorize the vertical scroll area.
+    - **scrollBar**: function to colorize the scroll bar.
 
 
 The call to `tableMenu` returns a menu object, with the same behavior as the call to `verticalMenu`.

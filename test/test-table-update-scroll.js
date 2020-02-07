@@ -1,4 +1,5 @@
 const keypress = require('keypress')
+const chalk = require('chalk')
 
 const {
     hideCursor, showCursor, tableMenu, computeTableLayout
@@ -34,7 +35,7 @@ function initItems(rows, cols) {
 }
 
 function main() {
-    const ROWS = 40, COLS = 5, COL_WIDTH = 22
+    const ROWS = 40, COLS = 5, COL_WIDTH = 21
     items = initItems(ROWS, COLS)
     items.push('Lorem')
     items.push('Ipsum')
@@ -46,7 +47,12 @@ function main() {
         columnWidth: COL_WIDTH,
         done: menuDone,
         height: 10,
-        scrollBarCol: 108
+        scrollBarCol: 106,
+        colors: {
+            item: chalk.bgBlue,
+            scrollArea: chalk.bgBlue,
+            scrollBar: chalk.yellowBright.bgBlue
+        }
     })
     listenKeyboard((ch, key) => {
         if (ch == 'u') {        // Convert items to uppercase

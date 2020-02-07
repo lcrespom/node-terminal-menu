@@ -5,7 +5,7 @@ let config = {}
 
 function showItem(pos, text) {
     let col = pos % config.columns
-    let row = Math.floor(pos / config.columns)
+    let row = Math.floor(pos / config.columns) - config.scrollStart
     process.stdout.moveCursor(col * config.columnWidth, row)
     print(text)
     process.stdout.moveCursor(0, - row - 1)
@@ -16,6 +16,25 @@ function showSelection(items, sel, oldSel) {
     showItem(sel, inverse(items[sel]))
 }
 
+function adjustScrollStart() {
+    // Compute row of current selection
+    let row = Math.floor(config.selection / config.columns)
+    // Check if current row is below visible area
+    if (config.scrollStart + config.height <= row) {
+        config.scrollStart++
+        //TODO set scroll start to row - height (and test)
+        //config.scrollStart = config.selection - config.height + 1
+        return true
+    }
+    // Check if current row is above visible area
+    else if (config.scrollStart > row) {
+        // Set scroll start to current row
+        config.scrollStart = row
+        return true
+    }
+    return false    
+}
+
 function moveSelection(delta) {
     if (config.selection + delta < 0 ||
         config.selection + delta >= config.items.length)
@@ -23,6 +42,8 @@ function moveSelection(delta) {
     config.oldSel = config.selection
     config.selection += delta
     config.menu.selection = config.selection
+    if (adjustScrollStart())
+        putTableMenu()
     showSelection(config.items, config.selection, config.oldSel)
 }
 
@@ -41,7 +62,15 @@ function keyHandler(ch, key) {
         case 'left': return moveSelection(-1)
         case 'down': return moveSelection(config.columns)
         case 'up': return moveSelection(-config.columns)
+        //TODO: pageup, pagedown
     }
+}
+
+function padEndAnsi(str, maxLen, filler = ' ') {
+    let len = removeAnsiColorCodes(str).length
+    if (len >= maxLen)
+        return str
+    return str + filler.repeat(maxLen - len)
 }
 
 function putTableMenu() {
@@ -50,8 +79,7 @@ function putTableMenu() {
     let end = start + config.height * config.columns
     let items = config.items.slice(start, end)
     for (let item of items) {
-        let len = removeAnsiColorCodes(item).length
-        put(item + ' '.repeat(config.columnWidth - len))
+        put(padEndAnsi(item, config.columnWidth))
         col++
         if (col >= config.columns) {
             print('')
@@ -69,16 +97,28 @@ function putTableMenu() {
 }
 
 function initConfig() {
+    // Initialize selection
     if (config.selection === undefined)
         config.selection = 0
     else if (config.selection >= config.items.length)
         config.selection = config.items.length - 1
     config.oldSel = 0
+    // Compute total number of rows
     config.rows = Math.ceil(config.items.length / config.columns)
+    // Initialize height
+    if (config.initialHeight)
+        // Ignore height of previous version of menu
+        config.height = config.initialHeight
+    else
+        // Remember height of first menu
+        config.initialHeight = config.height
+    // Initialize menu height in rows
     if (config.height === undefined || config.height > config.rows)
         config.height = config.rows
+    // Scroll starting row
     if (config.scrollStart === undefined)
         config.scrollStart = 0
+    // Do not scroll past bottom
     if (config.scrollStart + config.height > config.rows)
         config.scrollStart = config.rows - config.height
 }

@@ -6,6 +6,7 @@ let config = {}
 function showItem(pos, text) {
     let col = pos % config.columns
     let row = Math.floor(pos / config.columns) - config.scrollStart
+    if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(col * config.columnWidth, row)
     print(text)
     process.stdout.moveCursor(0, - row - 1)

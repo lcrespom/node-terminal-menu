@@ -34,8 +34,10 @@ function initItems(rows, cols) {
 }
 
 function main() {
-    const ROWS = 20, COLS = 5, COL_WIDTH = 20
+    const ROWS = 20, COLS = 5, COL_WIDTH = 22
     items = initItems(ROWS, COLS)
+    items.push('Lorem')
+    items.push('Ipsum')
     //let { columns, columnWidth } = computeTableLayout(items)
     hideCursor()
     let menu = tableMenu({

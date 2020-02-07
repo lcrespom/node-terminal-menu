@@ -42,6 +42,8 @@ function computeSelection(delta) {
     else if (config.selection + delta >= config.items.length) {
         if (delta == 1) return
         config.selection = config.columns * (config.rows - 1) + col
+        config.selection = Math.min(config.selection, config.items.length -1)
+        //if (config.selection >= config.items.length) config.selection -= config.columns
     }
     else {
         config.selection += delta
@@ -102,6 +104,7 @@ function putTableMenu() {
         }
     }
     if (col != 0) {
+        process.stdout.clearScreenDown()
         print('')
         row++
     }

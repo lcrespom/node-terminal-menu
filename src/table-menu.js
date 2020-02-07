@@ -46,7 +46,10 @@ function keyHandler(ch, key) {
 
 function putTableMenu() {
     let col = 0, row = 0
-    for (let item of config.items) {
+    let start = config.scrollStart * config.columns
+    let end = start + config.height * config.columns
+    let items = config.items.slice(start, end)
+    for (let item of items) {
         let len = removeAnsiColorCodes(item).length
         put(item + ' '.repeat(config.columnWidth - len))
         col++
@@ -65,20 +68,30 @@ function putTableMenu() {
         process.stdout.moveCursor(0, -row)
 }
 
-function tableMenu(menuConfig, updating = false) {
-    if (updating) {
-        process.stdout.clearScreenDown()
-        config = { ...config, ...menuConfig }
-        if (config.selection >= config.items.length)
-            config.selection = config.items.length - 1
-        config.menu.selection = config.selection
-    }
-    else {
-        config = menuConfig
-        if (config.selection === undefined)
-            config.selection = 0
-    }
+function initConfig() {
+    if (config.selection === undefined)
+        config.selection = 0
+    else if (config.selection >= config.items.length)
+        config.selection = config.items.length - 1
     config.oldSel = 0
+    config.rows = Math.ceil(config.items.length / config.columns)
+    if (config.height === undefined || config.height > config.rows)
+        config.height = config.rows
+    if (config.scrollStart === undefined)
+        config.scrollStart = 0
+    if (config.scrollStart + config.height > config.rows)
+        config.scrollStart = config.rows - config.height
+}
+
+function tableMenu(menuConfig, updating = false) {
+    process.stdout.clearScreenDown()
+    if (updating)
+        config = { ...config, ...menuConfig }
+    else
+        config = menuConfig
+    initConfig()
+    if (updating)
+        config.menu.selection = config.selection
     putTableMenu()
     showSelection(config.items, config.selection, config.oldSel)
     if (!updating) config.menu = {

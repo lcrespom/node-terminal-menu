@@ -99,10 +99,17 @@ function putScrollBar() {
         process.stdout.moveCursor(-1, 1)
         process.stdout.write('\u2502')
     }
-    process.stdout.moveCursor(-col, 1 - config.height)
+    process.stdout.moveCursor(0, 1 - config.height)
     // Paint scroll bar
-    let barH = config.height * config.height / config.rows
-    let barY = config.scrollStart
+    let barH = Math.ceil(config.height * config.height / config.rows)
+    let ssRate = config.scrollStart / (config.rows - config.height)
+    let barY = Math.floor(ssRate * (config.height - barH))
+    process.stdout.moveCursor(0, barY - 1)
+    for (let i = 0; i < barH; i++) {
+        process.stdout.moveCursor(-1, 1)
+        process.stdout.write('\u2588')
+    }
+    process.stdout.moveCursor(-col, 1 - (barY + barH))
 }
 
 function putTableMenu() {

@@ -89,6 +89,22 @@ function padEndAnsi(str, maxLen, filler = ' ') {
     return str + filler.repeat(maxLen - len)
 }
 
+function putScrollBar() {
+    if (config.scrollBarCol === undefined) return
+    if (config.height >= config.rows) return
+    let col = config.scrollBarCol
+    // Paint scroll area
+    process.stdout.moveCursor(col, -1)
+    for (let i = 0; i < config.height; i++) {
+        process.stdout.moveCursor(-1, 1)
+        process.stdout.write('\u2502')
+    }
+    process.stdout.moveCursor(-col, 1 - config.height)
+    // Paint scroll bar
+    let barH = config.height * config.height / config.rows
+    let barY = config.scrollStart
+}
+
 function putTableMenu() {
     let col = 0, row = 0
     let start = config.scrollStart * config.columns
@@ -111,15 +127,7 @@ function putTableMenu() {
     // If no done function, menu is not interactive
     if (config.done)
         process.stdout.moveCursor(0, -row)
-}
-
-function putScrollBar() {
-    if (config.scrollBarCol === undefined) return
-    let col = config.scrollBarCol
-    config.moveCursor(0, col)
-    for (let i = 0; i < config.rows; i++) {
-        process.stdout.write('\u2502')
-    }
+    putScrollBar()
 }
 
 function initConfig() {
@@ -159,7 +167,6 @@ function tableMenu(menuConfig, updating = false) {
     if (updating)
         config.menu.selection = config.selection
     putTableMenu()
-    putScrollBar()
     showSelection(config.items, config.selection, config.oldSel)
     if (!updating) config.menu = {
         keyHandler,

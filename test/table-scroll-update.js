@@ -39,10 +39,13 @@ function main() {
     items = initItems(ROWS, COLS)
     items.push('Lorem')
     items.push('Ipsum')
+    let descs = ['Desc for item 2-1',
+        'Line 1 of desc for item 3-1\nLine 2 of desc\nAnd line 3']
+    descs[200] = 'Desc for Lorem'
     //let { columns, columnWidth } = computeTableLayout(items)
     hideCursor()
     let menu = tableMenu({
-        items,
+        items, descs,
         columns: COLS,
         columnWidth: COL_WIDTH,
         done: menuDone,
@@ -51,7 +54,8 @@ function main() {
         colors: {
             item: chalk.bgBlue,
             scrollArea: chalk.bgBlue,
-            scrollBar: chalk.yellowBright.bgBlue
+            scrollBar: chalk.yellowBright.bgBlue,
+            desc: chalk.white.bgMagenta
         }
     })
     listenKeyboard((ch, key) => {

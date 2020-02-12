@@ -12,9 +12,26 @@ function showItem(pos, text) {
     process.stdout.moveCursor(0, - row - 1)
 }
 
-function showSelection(items, sel, oldSel) {
-    showItem(oldSel, items[oldSel])
-    showItem(sel, inverse(items[sel]))
+function showDesc(sel) {
+    if (!config.descs) return
+    let h = config.height
+    process.stdout.moveCursor(0, h)
+    process.stdout.clearScreenDown()
+    let desc = config.descs[sel]
+    if (desc) {
+        let lines = desc.split('\n')
+        h += lines.length
+        let w = config.scrollBarCol || config.columns * config.columnWidth
+        for (let line of lines)
+            print(padEndAnsi(line, w, config.colors.desc))
+    }
+    process.stdout.moveCursor(0, -h)
+}
+
+function showSelection(sel, oldSel) {
+    showItem(oldSel, config.items[oldSel])
+    showItem(sel, inverse(config.items[sel]))
+    showDesc(sel)
 }
 
 function adjustScrollStart() {
@@ -59,7 +76,7 @@ function moveSelection(delta) {
     config.menu.selection = config.selection
     if (adjustScrollStart())
         putTableMenu()
-    showSelection(config.items, config.selection, config.oldSel)
+    showSelection(config.selection, config.oldSel)
 }
 
 function keyHandler(ch, key) {
@@ -82,11 +99,11 @@ function keyHandler(ch, key) {
     }
 }
 
-function padEndAnsi(str, maxLen, filler = ' ') {
+function padEndAnsi(str, maxLen, colorizer, filler = ' ') {
     let len = removeAnsiColorCodes(str).length
     if (len >= maxLen)
         return str
-    return config.colors.item(str + filler.repeat(maxLen - len))
+    return colorizer(str + filler.repeat(maxLen - len))
 }
 
 function putScrollBar() {
@@ -117,10 +134,10 @@ function putTableMenu() {
     let end = start + config.height * config.columns
     let items = config.items.slice(start, end)
     for (let item of items) {
-        put(padEndAnsi(item, config.columnWidth))
+        put(padEndAnsi(item, config.columnWidth, config.colors.item))
         col++
         if (col >= config.columns) {
-            print('')
+            print()
             col = 0
             row++
         }
@@ -128,14 +145,28 @@ function putTableMenu() {
     if (col != 0) {
         process.stdout.clearScreenDown()
         for (let i = col; i < config.columns; i++)
-            put(padEndAnsi('', config.columnWidth))
-        print('')
+            put(padEndAnsi('', config.columnWidth, config.colors.item))
+        print()
         row++
     }
+    for (let i = 0; i < config.descRows; i++)
+        print()
+    row += config.descRows
     // If no done function, menu is not interactive
     if (config.done)
         process.stdout.moveCursor(0, -row)
     putScrollBar()
+}
+
+function initColors() {
+    let identity = s => s
+    if (!config.colors)
+        config.colors = {}
+    let cols = config.colors
+    if (!cols.item) cols.item = identity
+    if (!cols.scrollArea) cols.scrollArea = identity
+    if (!cols.scrollBar) cols.scrollBar = identity
+    if (!cols.desc) cols.desc = identity
 }
 
 function initConfig() {
@@ -163,13 +194,15 @@ function initConfig() {
     // Do not scroll past bottom
     else if (config.scrollStart + config.height > config.rows)
         config.scrollStart = config.rows - config.height
+    // Descriptions
+    config.descRows = 0
+    if (config.descs)
+        for (let desc of config.descs)
+            if (desc)
+                config.descRows = Math.max(
+                    config.descRows, desc.split('\n').length)
     // Colors
-    let identity = s => s
-    if (!config.colors)
-        config.colors = {}
-    if (!config.colors.item) config.colors.item = identity
-    if (!config.colors.scrollArea) config.colors.scrollArea = identity
-    if (!config.colors.scrollBar) config.colors.scrollBar = identity
+    initColors()
 }
 
 function tableMenu(menuConfig, updating = false) {
@@ -182,7 +215,7 @@ function tableMenu(menuConfig, updating = false) {
     if (updating)
         config.menu.selection = config.selection
     putTableMenu()
-    showSelection(config.items, config.selection, config.oldSel)
+    showSelection(config.selection, config.oldSel)
     if (!updating) config.menu = {
         keyHandler,
         update: (menuConfig) => tableMenu(menuConfig, true),

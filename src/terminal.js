@@ -2,7 +2,7 @@ function put(str) {
     process.stdout.write(str)
 }
 
-function print(str) {
+function print(str = '') {
     put(str + '\n')
 }
 

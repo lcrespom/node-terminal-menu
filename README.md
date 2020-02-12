@@ -68,11 +68,14 @@ let menu = tableMenu(config)
 - **scrollBarCol**: optional - if this property is present and the **height** property is smaller than the
     total number of rows, then a vertical scroll bar is displayed at the position indicated by the value of
     this property.
+- **descs**: optional - an array of description strings, corresponding to each item. If present, the selected item
+    description will be displayed at the bottom of the table.
 - **colors**: optional - an object with 3 properties, each being a function that, if present, will be invoked
     to add terminal escape codes to give color to different parts of the menu.
     - **item**: function to colorize each menu item.
     - **scrollArea**: function to colorize the vertical scroll area.
     - **scrollBar**: function to colorize the scroll bar.
+    - **desc**: function to colorize the item's description, if present.
 
 
 The call to `tableMenu` returns a menu object, with the same behavior as the call to `verticalMenu`.

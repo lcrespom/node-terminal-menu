@@ -39,8 +39,8 @@ function main() {
     items = initItems(ROWS, COLS)
     items.push('Lorem')
     items.push('Ipsum')
-    let descs = ['Desc for item 2-1',
-        'Line 1 of desc for item 3-1\nLine 2 of desc\nAnd line 3']
+    let descs = ['Desc for item 1', 'Desc for item 2',
+        'Line 1 of desc for item 3\nLine 2 of desc\nAnd line 3']
     descs[200] = 'Desc for Lorem'
     //let { columns, columnWidth } = computeTableLayout(items)
     hideCursor()
@@ -65,7 +65,8 @@ function main() {
         }
         else if (ch == 'd') {   // Delete selected item
             items.splice(menu.selection, 1)
-            menu.update({ items })
+            descs.splice(menu.selection, 1)
+            menu.update({ items, descs })
         }
         else menu.keyHandler(ch, key)
     })

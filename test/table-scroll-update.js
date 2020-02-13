@@ -2,7 +2,7 @@ const keypress = require('keypress')
 const chalk = require('chalk')
 
 const {
-    hideCursor, showCursor, tableMenu, computeTableLayout
+    hideCursor, showCursor, TableMenu   //, computeTableLayout
 } = require('../src')
 
 
@@ -44,7 +44,7 @@ function main() {
     descs[200] = 'Desc for Lorem'
     //let { columns, columnWidth } = computeTableLayout(items)
     hideCursor()
-    let menu = tableMenu({
+    let menu = new TableMenu({
         items, descs,
         columns: COLS,
         columnWidth: COL_WIDTH,

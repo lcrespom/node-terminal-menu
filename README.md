@@ -70,6 +70,8 @@ let menu = tableMenu(config)
     this property.
 - **descs**: optional - an array of description strings, corresponding to each item. If present, the selected item
     description will be displayed at the bottom of the table.
+- **descRows**: optional - maximum number of description lines. If not present, it is calculated by searching
+    inside the descriptions.
 - **colors**: optional - an object with 3 properties, each being a function that, if present, will be invoked
     to add terminal escape codes to give color to different parts of the menu.
     - **item**: function to colorize each menu item.

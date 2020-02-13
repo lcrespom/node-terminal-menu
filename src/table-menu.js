@@ -1,28 +1,6 @@
 const { put, print, inverse, removeAnsiColorCodes } = require('./terminal')
 
 
-/*
-function tableMenu(menuConfig, updating = false) {
-    process.stdout.clearScreenDown()
-    if (updating)
-        config = { ...config, ...menuConfig }
-    else
-        config = menuConfig
-    initConfig()
-    if (updating)
-        config.menu.selection = config.selection
-    putTableMenu()
-    showSelection(config.selection, config.oldSel)
-    if (!updating) config.menu = {
-        keyHandler,
-        update: (menuConfig) => tableMenu(menuConfig, true),
-        selection: config.selection
-    }
-    return config.menu
-}
-*/
-
-
 function computeTableLayout(items,
         gap = 2, totalWidth = process.stdout.columns) {
     let maxw = 0
@@ -53,8 +31,10 @@ class TableMenu {
     }
 
     update(config) {
+        process.stdout.clearScreenDown()
         // Override current config with user's config
         this.config = { ...this.config, ...config }
+        this.initConfig(this.config)
         this.selection = this.config.selection
         // Redraw
         this.putTableMenu(this.config)

@@ -195,8 +195,8 @@ function initConfig() {
     else if (config.scrollStart + config.height > config.rows)
         config.scrollStart = config.rows - config.height
     // Descriptions
+    config.descRows = 0
     if (config.descs && config.descRows === undefined) {
-        config.descRows = 0
         for (let desc of config.descs)
             if (desc)
                 config.descRows = Math.max(

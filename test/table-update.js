@@ -1,7 +1,7 @@
 const keypress = require('keypress')
 
 const {
-    hideCursor, showCursor, tableMenu, computeTableLayout
+    hideCursor, showCursor, TableMenu, computeTableLayout
 } = require('../src')
 
 
@@ -31,7 +31,7 @@ function main() {
     items = loremIpsum.split(' ')
     let { columns, columnWidth } = computeTableLayout(items)
     hideCursor()
-    let menu = tableMenu({
+    let menu = new TableMenu({
         items,
         columns,
         columnWidth,

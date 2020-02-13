@@ -52,6 +52,15 @@ class TableMenu {
         this.showSelection(config.selection, config.oldSel)
     }
 
+    update(config) {
+        // Override current config with user's config
+        this.config = { ...this.config, ...config }
+        this.selection = this.config.selection
+        // Redraw
+        this.putTableMenu(this.config)
+        this.showSelection(this.config.selection, this.config.oldSel)
+    }
+
     initConfig(config) {
         // Initialize selection
         if (config.selection === undefined)

@@ -1,6 +1,6 @@
 {
   "name": "node-terminal-menu",
-  "version": "3.3.3",
+  "version": "3.3.4",
   "description": "Simple menu widgets for the terminal",
   "main": "src/index.js",
   "scripts": {

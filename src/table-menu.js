@@ -8,7 +8,7 @@ function showItem(pos, text) {
     let row = Math.floor(pos / config.columns) - config.scrollStart
     if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(col * config.columnWidth, row)
-    print(config.colors.item(text))
+    print(text)
     process.stdout.moveCursor(0, - row - 1)
 }
 
@@ -29,8 +29,8 @@ function showDesc(sel) {
 }
 
 function showSelection(sel, oldSel) {
-    showItem(oldSel, config.items[oldSel])
-    showItem(sel, inverse(config.items[sel]))
+    showItem(oldSel, config.colors.item(config.items[oldSel]))
+    showItem(sel, config.colors.selectedItem(config.items[sel]))
     showDesc(sel)
 }
 
@@ -164,6 +164,7 @@ function initColors() {
         config.colors = {}
     let cols = config.colors
     if (!cols.item) cols.item = identity
+    if (!cols.selectedItem) cols.selectedItem = inverse
     if (!cols.scrollArea) cols.scrollArea = identity
     if (!cols.scrollBar) cols.scrollBar = identity
     if (!cols.desc) cols.desc = identity

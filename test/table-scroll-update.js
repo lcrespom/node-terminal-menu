@@ -51,6 +51,7 @@ function main() {
         done: menuDone,
         height: 10,
         scrollBarCol: 106,
+        selection: 200,
         colors: {
             item: chalk.bgBlue,
             scrollArea: chalk.bgBlue,

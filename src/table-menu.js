@@ -215,6 +215,7 @@ function tableMenu(menuConfig, updating = false) {
     initConfig()
     if (updating)
         config.menu.selection = config.selection
+    adjustScrollStart()
     putTableMenu()
     showSelection(config.selection, config.oldSel)
     if (!updating) config.menu = {

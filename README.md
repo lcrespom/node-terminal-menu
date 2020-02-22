@@ -21,6 +21,13 @@ See the code examples in the `tests` directory. There are different example
 programs with different level of complexity, illustrating all the different
 features of the widgets.
 
+## Screenshot
+The screenshot below is taken from the [Nash](https://github.com/lcrespom/nash)
+project, which uses the table menu widget to let the user select files,
+directories and other elements.
+
+![Table menu](sample.png)
+
 # Usage
 
 ## Vertical menu

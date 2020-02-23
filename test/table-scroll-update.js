@@ -37,7 +37,7 @@ function initItems(rows, cols) {
 function main() {
     const ROWS = 40, COLS = 5, COL_WIDTH = 21
     items = initItems(ROWS, COLS)
-    items.push('Lorem')
+    items.push('Lorem this is very long haha')
     items.push('Ipsum')
     let descs = ['Desc for item 1', 'Desc for item 2',
         'Line 1 of desc for item 3\nLine 2 of desc\nAnd line 3']
@@ -51,7 +51,7 @@ function main() {
         done: menuDone,
         height: 10,
         scrollBarCol: 106,
-        selection: 200,
+        selection: 199,
         colors: {
             item: chalk.bgBlue,
             scrollArea: chalk.bgBlue,

@@ -1,4 +1,6 @@
-const { put, print, inverse, removeAnsiColorCodes } = require('./terminal')
+const {
+    put, print, inverse, removeAnsiColorCodes, substrWithColors
+} = require('./terminal')
 
 
 let config = {}
@@ -8,6 +10,8 @@ function showItem(pos, text) {
     let row = Math.floor(pos / config.columns) - config.scrollStart
     if (row < 0) return // Out of scroll pane view
     process.stdout.moveCursor(col * config.columnWidth, row)
+    if (removeAnsiColorCodes(text).length >= config.columnWidth)
+        text = substrWithColors(text, 0, config.columnWidth - 1)
     print(text)
     process.stdout.moveCursor(0, - row - 1)
 }
@@ -101,8 +105,10 @@ function keyHandler(ch, key) {
 
 function padEndAnsi(str, maxLen, colorizer, filler = ' ') {
     let len = removeAnsiColorCodes(str).length
-    if (len >= maxLen)
-        return str
+    if (len >= maxLen) {
+        str = substrWithColors(str, 0, maxLen - 1)
+        len = maxLen - 1
+    }
     return colorizer(str + filler.repeat(maxLen - len))
 }
 
